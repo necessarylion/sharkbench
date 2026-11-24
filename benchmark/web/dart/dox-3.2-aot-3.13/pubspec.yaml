@@ -6,3 +6,4 @@ environment:
 
 dependencies:
   dox_core: ^3.2.0
+  dox_http_client: ^0.0.4

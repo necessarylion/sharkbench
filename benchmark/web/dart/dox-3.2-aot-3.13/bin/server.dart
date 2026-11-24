@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dox_core/dox_core.dart';
+import 'package:dox_http_client/dox_http_client.dart';
 
 void main() async {
   Dox().initialize(AppConfig(
@@ -29,13 +29,11 @@ class ApiController {
   static final Uri _elementUrl = Uri.http('127.0.0.1:5002', '/element.json');
   static final Uri _shellsUrl = Uri.http('127.0.0.1:5002', '/shells.json');
 
-  final HttpClient _httpClient = HttpClient();
+  final DoxHttpClient _httpClient = DoxHttpClient();
 
   Future<Map<String, dynamic>> _fetch(Uri url) async {
-    HttpClientRequest req = await _httpClient.getUrl(url);
-    HttpClientResponse res = await req.close();
-    String body = await res.transform(utf8.decoder).join();
-    return jsonDecode(body) as Map<String, dynamic>;
+    DoxHttpClientResponse res = await _httpClient.get(url);
+    return jsonDecode(res.body) as Map<String, dynamic>;
   }
 
   Future<Map<String, dynamic>> element(DoxRequest req) async {
